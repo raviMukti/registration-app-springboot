@@ -4,11 +4,11 @@ import com.registration.app.dto.UserDTO;
 import com.registration.app.exception.CustomErrorType;
 import com.registration.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> createUser(@RequestBody final UserDTO userDTO){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody final UserDTO userDTO){
         if (userRepository.findByName(userDTO.getName()) != null){
             return new ResponseEntity<UserDTO>(new CustomErrorType("Unable to create new user." +
                     " A user with name "+userDTO.getName()+" already exist"), CONFLICT);
